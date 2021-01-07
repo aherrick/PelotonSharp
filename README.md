@@ -1,8 +1,7 @@
 # PelotonSharp
+
  Easily access your Peloton workout data!
- 
- <img src="https://raw.githubusercontent.com/aherrick/PelotonSharp/main/assets/PelotonSharpIcon.png" width="150"/>
+
+![Drag Racing](https://raw.githubusercontent.com/aherrick/PelotonSharp/main/assets/PelotonSharpIcon.png)
 
 ![Publish](https://github.com/aherrick/PelotonSharp/workflows/Publish/badge.svg?branch=main)
-
-
