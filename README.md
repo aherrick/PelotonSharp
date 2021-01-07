@@ -1,6 +1,7 @@
 # PelotonSharp
 
 [![NuGet version (PelotonSharp)](https://img.shields.io/nuget/v/PelotonSharp.svg?style=flat-square)](https://www.nuget.org/packages/PelotonSharp/)
+![Build](https://github.com/aherrick/PelotonSharp/workflows/Build/badge.svg?branch=main)
 ![Publish](https://github.com/aherrick/PelotonSharp/workflows/Publish/badge.svg?branch=main)
 
 ```
