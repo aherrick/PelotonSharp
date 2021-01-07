@@ -1,0 +1,21 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netstandard2.0</TargetFramework>
+
+    <Description>Easily access your Peloton workout data!</Description>
+    <AssemblyTitle>PelotonSharp</AssemblyTitle>
+    <Authors>Andrew Herrick</Authors>
+    <AssemblyName>PelotonSharp</AssemblyName>
+    <PackageId>PelotonSharp</PackageId>
+    <PackageTags>peloton;pelotonsharp;workout;bike;spin</PackageTags>
+    <PackageIconUrl>https://raw.githubusercontent.com/aherrick/PelotonSharp/master/assets/PelotonSharpIcon.png</PackageIconUrl>
+    <PackageProjectUrl>https://github.com/aherrick/PelotonSharp</PackageProjectUrl>
+    <RepositoryUrl>https://github.com/aherrick/PelotonSharp</RepositoryUrl>
+    <Version>0.9</Version>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Newtonsoft.Json" Version="12.0.3" />
+  </ItemGroup>
+</Project>
