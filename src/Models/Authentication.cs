@@ -2,14 +2,9 @@
 {
     public class AuthResponse
     {
-        public Pubsub_Session pubsub_session { get; set; }
         public string user_id { get; set; }
         public User_Data user_data { get; set; }
         public string session_id { get; set; }
-    }
-
-    public class Pubsub_Session
-    {
     }
 
     public class User_Data
