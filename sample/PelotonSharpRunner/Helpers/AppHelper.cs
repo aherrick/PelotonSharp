@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace PelotonSharp.Helpers
+namespace PelotonSharpRunner.Helpers
 {
     public static class AppHelper
     {
