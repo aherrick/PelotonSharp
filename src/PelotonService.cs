@@ -12,7 +12,7 @@ namespace PelotonSharp
     {
         public static async Task<AuthResponse> AuthenticateAsync(string user, string password)
         {
-            var client = new ttpClient();
+            var client = new HttpClient();
 
             var info = new { password, username_or_email = user };
 
