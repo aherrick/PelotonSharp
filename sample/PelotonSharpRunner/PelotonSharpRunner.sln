@@ -3,7 +3,9 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 16
 VisualStudioVersion = 16.0.30803.129
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PelotonSharpRunner", "PelotonSharpRunner.csproj", "{9FD03D36-D21F-4880-9456-8E70591784B5}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PelotonSharpRunner", "PelotonSharpRunner.csproj", "{9FD03D36-D21F-4880-9456-8E70591784B5}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PelotonSharp", "..\..\src\PelotonSharp.csproj", "{10303ACA-695B-4217-8D1B-36DCE8D4B462}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -15,6 +17,10 @@ Global
 		{9FD03D36-D21F-4880-9456-8E70591784B5}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{9FD03D36-D21F-4880-9456-8E70591784B5}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{9FD03D36-D21F-4880-9456-8E70591784B5}.Release|Any CPU.Build.0 = Release|Any CPU
+		{10303ACA-695B-4217-8D1B-36DCE8D4B462}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{10303ACA-695B-4217-8D1B-36DCE8D4B462}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{10303ACA-695B-4217-8D1B-36DCE8D4B462}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{10303ACA-695B-4217-8D1B-36DCE8D4B462}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

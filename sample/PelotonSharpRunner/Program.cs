@@ -1,6 +1,6 @@
 ﻿using Microsoft.Extensions.Configuration;
 using PelotonSharp;
-using PelotonSharp.Helpers;
+using PelotonSharpRunner.Helpers;
 using System;
 using System.Threading.Tasks;
 

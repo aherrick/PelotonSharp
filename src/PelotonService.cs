@@ -12,7 +12,7 @@ namespace PelotonSharp
     {
         public static async Task<AuthResponse> AuthenticateAsync(string user, string password)
         {
-            var client = new HttpClient();
+            var client = GetClient();
 
             var info = new { password, username_or_email = user };
 
@@ -28,7 +28,7 @@ namespace PelotonSharp
 
         public static async Task<List<RideDatum>> GetWorkoutListAsync(AuthResponse auth)
         {
-            var client = new HttpClient();
+            var client = GetClient();
 
             var rideDataList = new List<RideDatum>();
 
@@ -58,7 +58,7 @@ namespace PelotonSharp
 
         public static async Task<UserWorkoutDetails> GetWorkoutUserDetails(RideDatum ride)
         {
-            var client = new HttpClient();
+            var client = GetClient();
 
             var userDetailsJson = await client.GetStringAsync($"https://api.onepeloton.com/api/workout/{ride.id}");
 
@@ -69,7 +69,7 @@ namespace PelotonSharp
 
         public static async Task<EventDetails> GetWorkoutEventDetails(RideDatum ride)
         {
-            var client = new HttpClient();
+            var client = GetClient();
 
             var userDetailsJson = await client.GetStringAsync($"https://api.onepeloton.com/api/ride/{ride.ride.id}/details");
 
@@ -80,13 +80,21 @@ namespace PelotonSharp
 
         public static async Task<WorkoutSessionMetrics> GetWorkoutMetricsAsync(RideDatum ride, int secondsPerObservation = 1)
         {
-            var client = new HttpClient();
+            var client = GetClient();
 
             var workoutSessionJson = await client.GetStringAsync($"https://api.onepeloton.com/api/workout/{ride.id}/performance_graph?every_n={secondsPerObservation}");
 
             var workoutSessionMetrics = JsonConvert.DeserializeObject<WorkoutSessionMetrics>(workoutSessionJson);
 
             return workoutSessionMetrics;
+        }
+
+        private static HttpClient GetClient()
+        {
+            var client = new HttpClient();
+            client.DefaultRequestHeaders.TryAddWithoutValidation("User-Agent", "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/74.0.3729.169 Safari/537.36");
+
+            return client;
         }
 
         private static async Task Throttle()
