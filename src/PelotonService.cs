@@ -8,17 +8,32 @@ using System.Threading.Tasks;
 
 namespace PelotonSharp
 {
-    public static class PelotonService
+    public class PelotonService
     {
-        public static async Task<AuthResponse> AuthenticateAsync(string user, string password)
-        {
-            var client = GetClient();
+        private readonly HttpClient _client;
 
+        public PelotonService(HttpClient httpClient = null)
+        {
+            _client = httpClient;
+
+            if (_client == null)
+            {
+                _client = new HttpClient();
+            }
+
+            if (!_client.DefaultRequestHeaders.TryGetValues("User-Agent", out _))
+            {
+                _client.DefaultRequestHeaders.TryAddWithoutValidation("User-Agent", "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/74.0.3729.169 Safari/537.36");
+            }
+        }
+
+        public async Task<AuthResponse> AuthenticateAsync(string user, string password)
+        {
             var info = new { password, username_or_email = user };
 
             var httpContent = new StringContent(JsonConvert.SerializeObject(info), Encoding.UTF8, "application/json");
 
-            var respMsg = await client.PostAsync("https://api.onepeloton.com/auth/login", httpContent);
+            var respMsg = await _client.PostAsync("https://api.onepeloton.com/auth/login", httpContent);
             var respMsgJson = await respMsg.Content.ReadAsStringAsync();
 
             var authResponse = JsonConvert.DeserializeObject<AuthResponse>(respMsgJson);
@@ -26,18 +41,16 @@ namespace PelotonSharp
             return authResponse;
         }
 
-        public static async Task<List<RideDatum>> GetWorkoutListAsync(AuthResponse auth)
+        public async Task<List<RideDatum>> GetWorkoutListAsync(AuthResponse auth)
         {
-            var client = GetClient();
-
             var rideDataList = new List<RideDatum>();
 
-            client.DefaultRequestHeaders.TryAddWithoutValidation("cookie", $"peloton_session_id={auth.session_id}");
+            _client.DefaultRequestHeaders.TryAddWithoutValidation("cookie", $"peloton_session_id={auth.session_id}");
 
             int pageNum = 0;
             while (true)
             {
-                var workoutListRespJson = await client.GetStringAsync($"https://api.onepeloton.com/api/user/{auth.user_id}/workouts?joins=ride&limit=20&page={pageNum}");
+                var workoutListRespJson = await _client.GetStringAsync($"https://api.onepeloton.com/api/user/{auth.user_id}/workouts?joins=ride&limit=20&page={pageNum}");
                 var workoutList = JsonConvert.DeserializeObject<WorkoutList>(workoutListRespJson);
 
                 rideDataList.AddRange(workoutList.data);
@@ -56,48 +69,34 @@ namespace PelotonSharp
             return rideDataList;
         }
 
-        public static async Task<UserWorkoutDetails> GetWorkoutUserDetails(RideDatum ride)
+        public async Task<UserWorkoutDetails> GetWorkoutUserDetails(RideDatum ride)
         {
-            var client = GetClient();
-
-            var userDetailsJson = await client.GetStringAsync($"https://api.onepeloton.com/api/workout/{ride.id}");
+            var userDetailsJson = await _client.GetStringAsync($"https://api.onepeloton.com/api/workout/{ride.id}");
 
             var userDetails = JsonConvert.DeserializeObject<UserWorkoutDetails>(userDetailsJson);
 
             return userDetails;
         }
 
-        public static async Task<EventDetails> GetWorkoutEventDetails(RideDatum ride)
+        public async Task<EventDetails> GetWorkoutEventDetails(RideDatum ride)
         {
-            var client = GetClient();
-
-            var userDetailsJson = await client.GetStringAsync($"https://api.onepeloton.com/api/ride/{ride.ride.id}/details");
+            var userDetailsJson = await _client.GetStringAsync($"https://api.onepeloton.com/api/ride/{ride.ride.id}/details");
 
             var eventDetails = JsonConvert.DeserializeObject<EventDetails>(userDetailsJson);
 
             return eventDetails;
         }
 
-        public static async Task<WorkoutSessionMetrics> GetWorkoutMetricsAsync(RideDatum ride, int secondsPerObservation = 1)
+        public async Task<WorkoutSessionMetrics> GetWorkoutMetricsAsync(RideDatum ride, int secondsPerObservation = 1)
         {
-            var client = GetClient();
-
-            var workoutSessionJson = await client.GetStringAsync($"https://api.onepeloton.com/api/workout/{ride.id}/performance_graph?every_n={secondsPerObservation}");
+            var workoutSessionJson = await _client.GetStringAsync($"https://api.onepeloton.com/api/workout/{ride.id}/performance_graph?every_n={secondsPerObservation}");
 
             var workoutSessionMetrics = JsonConvert.DeserializeObject<WorkoutSessionMetrics>(workoutSessionJson);
 
             return workoutSessionMetrics;
         }
 
-        private static HttpClient GetClient()
-        {
-            var client = new HttpClient();
-            client.DefaultRequestHeaders.TryAddWithoutValidation("User-Agent", "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/74.0.3729.169 Safari/537.36");
-
-            return client;
-        }
-
-        private static async Task Throttle()
+        private async Task Throttle()
         {
             await Task.Delay(1000);
         }

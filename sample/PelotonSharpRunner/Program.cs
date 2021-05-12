@@ -13,9 +13,11 @@ namespace PelotonSharpRunner
             var configuration = new ConfigurationBuilder()
                 .AddJsonFile($"appsettings.json").Build();
 
-            var auth = await PelotonService.AuthenticateAsync(configuration["username_or_email"], configuration["password"]);
+            var pelotonService = new PelotonService();
 
-            var workoutList = await PelotonService.GetWorkoutListAsync(auth);
+            var auth = await pelotonService.AuthenticateAsync(configuration["username_or_email"], configuration["password"]);
+
+            var workoutList = await pelotonService.GetWorkoutListAsync(auth);
 
             foreach (var workout in workoutList)
             {
